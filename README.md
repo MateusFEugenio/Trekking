@@ -9,4 +9,4 @@ Esse é um projeto desenvolvindo por ex membros do IEEE-UFJF, onde a função do
 * Sejam Bem vindo ao meu mundo!
  
  
- # vale se lembra que o código mais completo é o 
+ * vale se lembra que o código mais completo é o sensor infla, onde o mesmo tem como princimpal finalidade o controle do Carro através dos 3 sensores inflavermelhos localizados a frente do carro 
