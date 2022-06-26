@@ -12,7 +12,7 @@ Esse é um projeto desenvolvindo por ex membros do IEEE-UFJF, onde a função do
  * vale se lembra que o código mais completo é o sensor infla, onde o mesmo tem como princimpal finalidade o controle do Carro através dos 3 sensores inflavermelhos localizados a frente do carro 
 
 # Vamos a explicação de cada arquivo a cima:
-* o Código chamado cd camerapai, é um código onde testamos a coneção da dispositivo de entrada camera;
+* camerapai é um código onde testamos a coneção da dispositivo de entrada camera;
 * Cascade é um classificador de cone com a proporção 24 pixels por 24 pixels onde as 1800 imagens positivas foram originadas de uma imagem de cone;
 * cascade10 é um classificador de cone com a proporção 20 pixels por 20 pixes utilizando 10 imagens de cone para gerar as 1800 positivas;
 * classificadorCone10-24x24.xml é um classificador de cone com a proporção 24 pixels por 24 pixes utilizando 10 imagens de cone para gerar as 1800 positivas;
