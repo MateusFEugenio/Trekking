@@ -1,33 +1,269 @@
-import RPi.GPIO as GPIO
-import time
+'''
+Código desenvolvido para o conrole de um carro que encontre um cone
+em um campo aberto, onde o mesmo utiliza 3 sensores infla-vermelhor
+onde a preferencia será da camera e logo que ela reconheça o cone
+o sensor da direita fara ele da a volta pelo cone. 
+'''
+
+from picamera import PiCamera
+from time import sleep
+import cv2
+import numpy as np
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-teste1 = 16
-teste2 = 12
-
+sensor1 = 5
+sensor2 = 0
 sensor3 = 11
 
+Led = 23
+GiroflexA = 26
+GiroflexB = 19
+
+
+'''
+DireçãoA HIGH
+DireçãoB LOW
+         Vira para a direita
+         
+DireçãoA LOW
+DireçãoB HIGH
+         Vira para a esquerda
+'''
+DireçãoA = 16
+DireçãoB = 12
+
+
+'''
+MotorTA HIGH
+MotorTB LOW
+         Vira para a frente
+         
+MotorTA LOW
+MotorTB HIGH
+         Vira para a tras
+'''
+MotorTA = 13
+MotorTB = 6
+
+interuptor = 14
+
+'''
+MotorFA HIGH
+MotorFB LOW
+         Vira para a frente
+         
+MotorFA LOW
+MotorFB HIGH
+         Vira para a tras
+'''
+MotorFA = 20
+MotorFB = 21
+
+#Declarando os sensores como entrada
+GPIO.setup(sensor1,GPIO.IN)
+GPIO.setup(sensor2,GPIO.IN)
 GPIO.setup(sensor3,GPIO.IN)
 
-GPIO.setup(teste1,GPIO.OUT)
-GPIO.setup(teste2,GPIO.OUT)
+#Declarando o jumpe vermelho como entrada
+GPIO.setup(interuptor,GPIO.IN) 
+
+GPIO.setup(Led,GPIO.OUT)
+
+GPIO.setup(GiroflexA,GPIO.OUT)
+GPIO.setup(GiroflexB,GPIO.OUT)
+
+GPIO.setup(DireçãoA,GPIO.OUT)
+GPIO.setup(DireçãoB,GPIO.OUT)
+GPIO.setup(MotorTA,GPIO.OUT)
+GPIO.setup(MotorTB,GPIO.OUT)
+GPIO.setup(MotorFA,GPIO.OUT)
+GPIO.setup(MotorFB,GPIO.OUT)
+
+pwmMotorTA = GPIO.PWM(MotorTA,100)
+pwmMotorTA.start(0)
+
+pwmMotorTB = GPIO.PWM(MotorTB,100)
+pwmMotorTB.start(0)
+
+pwmMotorFA = GPIO.PWM(MotorFA,100)
+pwmMotorFA.start(0)
+
+pwmMotorFB = GPIO.PWM(MotorFB,100)
+pwmMotorFB.start(0)
+
+pwmMotorDA = GPIO.PWM(DireçãoA,100)
+pwmMotorDA.start(0)
+
+pwmMotorDB = GPIO.PWM(DireçãoB,100)
+pwmMotorDB.start(0)
+
+
+
+
+# funcao principal de detecção 
+def detectar_cone(img, print_img):
+
+    #classificador = cv2.CascadeClassifier('cascade.xml')
+    classificador = cv2.CascadeClassifier('cascade10.xml')
+
+    imagemcinza = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    deteccoes = classificador.detectMultiScale(imagemcinza, scaleFactor = 1.1, minNeighbors = 4, flags=4, minSize = (50, 150))
+    
+    print(deteccoes)
+    if len(deteccoes) > 0:
+        print(f"\nFoi(Foram) detectado {len(deteccoes)} elemento(s)\n")
+    
+        x = deteccoes[:, 0]
+        y = deteccoes[:, 1]
+        l = deteccoes[:, 2]
+        a = deteccoes[:, 3]
+        
+        #detectar o maior valor de x
+        err_la = 0
+        aux_i = 0
+        
+        for i in range(len(x)):
+            if (err_la < (l[i] * a[i])):
+                err_la = l[i] * a[i]
+                aux_i = i
+        
+        err_la = x[aux_i] - len(img[0])/2
+        
+        if print_img:
+            for(x, y,l, a) in deteccoes:
+                cv2.rectangle(img, (x, y),(x + l, y + a), (0,255,0), 2)
+                cv2.imshow('Detector de Cone', image)
+
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
+        
+        return err_la
+
+
+
+def Motores (dcmotorTA, dcmotorTB,  dcmotorFA, dcmotorFB,  dcmotorDA,  dcmotorDB, Valor1, Valor2):
+    pwmMotorTA.ChangeDutyCycle(dcMotorTA)
+    pwmMotorTB.ChangeDutyCycle(dcMotorTB)
+    
+    pwmMotorFA.ChangeDutyCycle(dcMotorFA)
+    pwmMotorFB.ChangeDutyCycle(dcMotorFB)
+    
+    pwmMotorDA.ChangeDutyCycle(dcMotorDA)
+    pwmMotorDB.ChangeDutyCycle(dcMotorDB) 
+    
+    GPIO.output(GiroflexA, Valor1)
+    GPIO.output(GiroflexA, Valor2)
+
+
 
 try:
     while True:
-        if GPIO.input(sensor3) == False:
-            print("algo detectado")
-            GPIO.output(teste1,True)
-            GPIO.output(teste2,False)
-           
-            time.sleep(1)
-        else:
-            GPIO.output(teste1,False)
-            GPIO.output(teste2,False)
-            print("sensor lendo")
-            time.sleep(1)
+'''
+o inteptor é um jumper que conectado funiona para ligar
+e delisgar o projeto, ele é uma entrada 5V ligado diretamente
+na porta 14 GPIO 14 do raspberry
+'''
+        if GPIO.input(interuptor) == True:
+            Err = err_la/100
+            velNormal = 100 
+            kp = 20
+            
+            if GPIO.input(sensor3) == True:
+
+             #Lendo a Camera que definimos a resolução de 320 px / 240 px
+
+                camera = PiCamera()
+                camera.resolution = (320, 240)
+                camera.framerate = 24
+                time.sleep(2)
+                image = np.empty((240 * 320 * 3,), dtype=np.uint8)
+                camera.capture(image, 'bgr')
+                image = image.reshape((240, 320, 3))
+
+                err = detectar_cone(image, print_img = True)
+                print(f"erro: {err}")
+
+
+                Err = ((err/2)+x)-320
+                velonormal = 10
+                kp = 40
+
+                #cone a esquerda do projeto, correção na roda direita
+                if Err < -1
+                     
+                    dcMotorTA = velonormal
+                    dcMotorTB = 0
+                    dcMotorFA = velonormal
+                    dcMotorFB = 0
+                    dcMotorDA = 0
+                        #curva suave para corrigir a esquerda
+                    dcMotorDB = velonormal + (kp * (Err * -1))
+                    Valor1 = False
+                    Valor2 = False
+                    Motores(dcmotorTA, dcmotorTB,  dcmotorFA, dcmotorFB,  dcmotorDA,  dcmotorDB, Valor1, Valor2):
+                    
+                    #cone mais o menor no centro, carro positivo
+                elif -1 < err < 1
+                    
+                    dcMotorTA = velonormal
+                    dcMotorTB = 0
+                    dcMotorFA = velonormal
+                    dcMotorFB = 0
+                    dcMotorDA = 0
+                    dcMotorDB = 0
+                    Valor1 = False
+                    Valor2 = False
+                    Motores(dcmotorTA, dcmotorTB,  dcmotorFA, dcmotorFB,  dcmotorDA,  dcmotorDB, Valor1, Valor2):
+                    
+                    #cone a direita do projeto, correção roda esquerda
+                elif > 1
+                        
+                    dcMotorTA = velonormal
+                    dcMotorTB = 0
+                    dcMotorFA = velonormal
+                    dcMotorFB = 0
+                    dcMotorDA = velonormal + (kp * Err)
+                    dcMotorDB = 0
+                    Valor1 = False
+                    Valor2 = False
+                    Motores(dcmotorTA, dcmotorTB,  dcmotorFA, dcmotorFB,  dcmotorDA,  dcmotorDB, Valor1, Valor2):
+                    
+                    
+                else       
         
+                    dcMotorTA = 0
+                    dcMotorTB = 0
+                    dcMotorFA = 0
+                    dcMotorFB = 0
+                    dcMotorDA = 0
+                    dcMotorDB = 0
+                    Valor1 = False
+                    Valor2 = False
+                    Motores(dcmotorTA, dcmotorTB,  dcmotorFA, dcmotorFB,  dcmotorDA,  dcmotorDB, Valor1, Valor2):
+                    
+             else
+                 #dando volta no cone 
+                while GPIO.input(sensor1) == True:
+                    dcMotorTA = 70
+                    dcMotorTB = 0
+                    dcMotorFA = 70
+                    dcMotorFB = 0
+                    dcMotorDA = 0
+                    dcMotorDB = 70
+                    Valor1 = True
+                    Valor2 = False
+                    Motores(dcmotorTA, dcmotorTB,  dcmotorFA, dcmotorFB,  dcmotorDA,  dcmotorDB, Valor1, Valor2):
+                    time.sleep(10)
+
+        else
+            print("acione o interruptonr para ligar o projeto ")
+            GPIO.cleanup()
+                            
+                 
+
 except KeyboardInterrupt:
     print("deligado do projeto")
     GPIO.cleanup()
