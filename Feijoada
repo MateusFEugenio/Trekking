@@ -173,7 +173,7 @@ na porta 14 GPIO 14 do raspberry
             
             if GPIO.input(sensor3) == True:
 
-             #Lendo a Camera que definimos a resolução de 320 px / 240 px
+                       #Lendo a Camera que definimos a resolução de 320 px / 240 px
 
                 camera = PiCamera()
                 camera.resolution = (320, 240)
@@ -191,7 +191,7 @@ na porta 14 GPIO 14 do raspberry
                 velonormal = 10
                 kp = 40
 
-                #cone a esquerda do projeto, correção na roda direita
+                        #cone a esquerda do projeto, correção na roda direita
                 if Err < -1
                      
                     dcMotorTA = velonormal
@@ -205,7 +205,7 @@ na porta 14 GPIO 14 do raspberry
                     Valor2 = False
                     Motores(dcmotorTA, dcmotorTB,  dcmotorFA, dcmotorFB,  dcmotorDA,  dcmotorDB, Valor1, Valor2):
                     
-                    #cone mais o menor no centro, carro positivo
+                        #cone mais o menor no centro, carro positivo
                 elif -1 < err < 1
                     
                     dcMotorTA = velonormal
@@ -247,12 +247,12 @@ na porta 14 GPIO 14 do raspberry
              else
                  #dando volta no cone 
                 while GPIO.input(sensor1) == True:
-                    dcMotorTA = 70
+                    dcMotorTA = velNormal
                     dcMotorTB = 0
-                    dcMotorFA = 70
+                    dcMotorFA = velNormal
                     dcMotorFB = 0
                     dcMotorDA = 0
-                    dcMotorDB = 70
+                    dcMotorDB = velNormal
                     Valor1 = True
                     Valor2 = False
                     Motores(dcmotorTA, dcmotorTB,  dcmotorFA, dcmotorFB,  dcmotorDA,  dcmotorDB, Valor1, Valor2):
