@@ -21,6 +21,13 @@ Led = 23
 GiroflexA = 26
 GiroflexB = 19
 
+#FatordeScala = 1.1
+#numerovisinhos = 4
+#Bandeiras = 4
+#proporMinX = 50
+#proporMinZ = 150
+
+
 
 '''
 DireçãoA HIGH
@@ -100,9 +107,9 @@ pwmMotorDB = GPIO.PWM(DireçãoB,100)
 pwmMotorDB.start(0)
 
 
+TempoVolta = 30
 
-
-# funcao principal de detecção 
+# Função para Tratamento e trabalho da imagem  
 def detectar_cone(img, print_img):
 
     #classificador = cv2.CascadeClassifier('cascade.xml')
@@ -142,8 +149,24 @@ def detectar_cone(img, print_img):
         
         return err_la
 
+#volta no cone
+def volta cone(volta):
+    
+    if volta == True:
+        pwmMotorTA.ChangeDutyCycle(dcMotorTA)
+        pwmMotorTB.ChangeDutyCycle(dcMotorTB)
+    
+        pwmMotorFA.ChangeDutyCycle(dcMotorFA)
+        pwmMotorFB.ChangeDutyCycle(dcMotorFB)
+    
+        pwmMotorDA.ChangeDutyCycle(dcMotorDA)
+        pwmMotorDB.ChangeDutyCycle(dcMotorDB) 
+    
+        GPIO.output(GiroflexA, Valor1)
+        GPIO.output(GiroflexA, Valor2)
+        
 
-
+# função de movimento dos motores 
 def Motores (dcmotorTA, dcmotorTB,  dcmotorFA, dcmotorFB,  dcmotorDA,  dcmotorDB, Valor1, Valor2):
     pwmMotorTA.ChangeDutyCycle(dcMotorTA)
     pwmMotorTB.ChangeDutyCycle(dcMotorTB)
@@ -237,9 +260,9 @@ na porta 14 GPIO 14 do raspberry
                     dcMotorTA = 0
                     dcMotorTB = 0
                     dcMotorFA = 0
-                    dcMotorFB = 0
+                    dcMotorFB = velonormal
                     dcMotorDA = 0
-                    dcMotorDB = 0
+                    dcMotorDB = velonormal
                     Valor1 = False
                     Valor2 = False
                     Motores(dcmotorTA, dcmotorTB,  dcmotorFA, dcmotorFB,  dcmotorDA,  dcmotorDB, Valor1, Valor2):
