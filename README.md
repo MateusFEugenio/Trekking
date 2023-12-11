@@ -29,6 +29,11 @@ ________________________________________________________________________________
 
 
 #Ligação do projeto:
+|Sensor de refletancia|Cores|Funação|
+|---|---|--|
+||Azul|GND|
+||Marro|5V|
+||Preto|Sinal|
 
 Ponto de atenção, estamos utilizando um RaspBerry como controlador do projeto, a porta do mesmo esta sendo acionando a  como mostrado acima na imagem, coisas importantes a serem sitadas como a tabela expresssa abaixo é a respeito das tensões de liagação e acionamento do mesmo, isso é muito imporante manater a atenção, senão poderá gerar perdas de comonetes. onde para piorar ainda mais kkkk cada componete é acionado em uma tensão diferente, leia a tabela a seguir para enteder cada tensão.
 
