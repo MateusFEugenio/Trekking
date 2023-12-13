@@ -72,10 +72,14 @@ tensão que acaarenta em um consumo de corrente maior, coisa linda coisa bela.
 *Problemas:
 o projeto tem se mostrado com o código muito pesado para rodar tratando imagem, logo teremos que estudar uma forma de otimizar o código. através do mesmo após isso teremos o reconhecimento do cone em ambiente aberto. até o momento isso esta meio longe de acontecer.
 
+# Teste 13 de Dezembro:
+No dia 13 de dezembro foi realizado testes onde observamos o comportamento do projeto:
+O sensor S1, que está conectado a porta 29, está com problema de identificação do objeto();
+As duas rodas de trás não tiveram potência suficiente para andar na grama. Não rotacionavam para fazer curvas e travavam;
+O botão de ligar e desligar apresentou mal funcionamento, ele está fechando contato independente do seu estado estar ligado ou desligado;
+Grama dando interferência nos sensores;
 
 
 
 
-
-
-oque gera maus
+Para o acompanhamento do projeto, talvez seja melhor ser inplementado o sensor ultrasonico, é meio dificil, mas vai ser mais util, teremos que obeservar qual porta do raspberry
