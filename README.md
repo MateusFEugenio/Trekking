@@ -47,7 +47,7 @@ Ponto de atenção, estamos utilizando um RaspBerry como controlador do projeto,
 
 |Componete|Tensão(V)|OBS:|
 |----|-----|---|
-|Sensor de refletancia  E3f-r2n2|5V|os 5 Volt's que é a tensão de acionamento é colocado na fio Marron|
+|Sensor de refletancia  E3f-r2n2|5V|os 5 Volt's que é a tensão de acionamento é colocado no fio Marron|
 |Motores|12V|Os motores são energizado pela tensão de 12V, mas cairá para 11.1 que á tensão da bateria que iremos utilizar, onde o mesmo é manipulado pela ponte H|
 |Comando PonteH|5V|existe um botão azul ON/OFF na lateral no projeto, onde a função do mesmo é manipular o projeto para acionar e desligar o projeto|
 |Potencia Ponte H|11.1V|tensão essa que é dosponibilizada pela nossa bateria|
