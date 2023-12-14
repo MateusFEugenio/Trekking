@@ -1,5 +1,5 @@
 |Videos Úteis|Link|
-|----|------|
+|-----|------|
 | Como Integrar o Raspberry com o Arduino ? - Vídeo #10 - RaspberryPi Primeiros Passos | https://www.youtube.com/watch?v=1dmLpR4V35E |
 
 | Programando o Raspberry PI em PYTHON pinos GPIO #1 | https://www.youtube.com/watch?v=eOT71ONIEpg |
