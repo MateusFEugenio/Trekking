@@ -6,7 +6,7 @@
 
 |Como Iniciar a Programação do Raspberry em Python ? - RaspberryPi Primeiros Passos - Vídeo #7 | https://www.youtube.com/watch?v=0Z_-KNRLTG8| 
 
-|Curso de Python - Introdução - Aula #1 | https://www.youtube.com/watch?v=9OqTVCgvuGw |
+| Curso de Python - Introdução - Aula #1 | https://www.youtube.com/watch?v=9OqTVCgvuGw |
 
 # Trekking
 Esse é um projeto desenvolvindo por ex membros do IEEE-UFJF, onde a função do mesmo a o mapeamento de lugares Hostil. 
