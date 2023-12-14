@@ -2,7 +2,7 @@
 |----|------|
 |Como Integrar o Raspberry com o Arduino ? - Vídeo #10 - RaspberryPi Primeiros Passos| https://www.youtube.com/watch?v=1dmLpR4V35E |
 
-|Programando o Raspberry PI em PYTHON pinos GPIO #1|https://www.youtube.com/watch?v=eOT71ONIEpg |
+|Programando o Raspberry PI em PYTHON pinos GPIO #1 | https://www.youtube.com/watch?v=eOT71ONIEpg |
 
 |Como Iniciar a Programação do Raspberry em Python ? - RaspberryPi Primeiros Passos - Vídeo #7 | https://www.youtube.com/watch?v=0Z_-KNRLTG8| 
 
